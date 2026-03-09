@@ -25,14 +25,16 @@ const App: React.FC = () => {
   const isDomainComplete = currentDomain.items.every(item => answers[item.id] !== undefined);
 
   const getIdentifiedIssues = () => {
-    // Items with score <= 2 are considered "issues"
+    // Items with score <= 2 are considered "issues", sorted by score ascending (most difficult first), top 3
     return Object.entries(answers)
       .filter(([, score]) => score <= 2)
+      .sort(([, a], [, b]) => a - b)
       .map(([itemId]) => {
         const item = assessmentData.flatMap(d => d.items).find(i => i.id === Number(itemId));
         return item;
       })
-      .filter((item): item is Item => !!item);
+      .filter((item): item is Item => !!item)
+      .slice(0, 3);
   };
 
   const generateLessonPlan = (item: Item): string => {
