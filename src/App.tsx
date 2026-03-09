@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { assessmentData, type Item } from './data/assessment';
+import { lessonDetails } from './data/lessonPlans';
 import { ChevronRight, ChevronLeft, Sparkles, CheckCircle2, AlertCircle, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -41,6 +42,9 @@ const App: React.FC = () => {
     const domain = assessmentData[item.domainId - 1];
     const score = answers[item.id];
     const difficulty = score === 1 ? 'とても難しい' : '難しい';
+    const detail = lessonDetails.find(d => d.itemId === item.id);
+
+    if (!detail) return '授業案データが見つかりません。';
 
     return `### 【${childName}さん（${grade}）のための自立活動 授業案】
 
@@ -63,43 +67,26 @@ ${item.guideline}
 
 #### 2. 授業構成（45分）
 
-**【導入】（5分）「今日の自分チェック」**
-- 視覚的なスケール（表情カード・色カード）を用いて、今日の体調や気持ちを確認します。
-- 前回の振り返りカードを見返し、「前回できたこと」を一緒に確認して自信につなげます。
+**【導入】（5分）**
+${detail.intro}
 
-**【展開①】（15分）「知る・わかる活動」**
-- 「${item.name}」に関する具体的な場面をイラストや写真で提示します。
-- 「こんなときどうする？」のワークシートを使い、適切な行動や考え方を視覚的に学びます。
-- タブレット端末やICT教材を活用し、インタラクティブに理解を深めます。
+**【展開①】（15分）${detail.activity1Title}**
+${detail.activity1}
 
-**【展開②】（15分）「やってみる活動」**
-- 学んだ内容を、ロールプレイやシミュレーション形式で実践します。
-- 教師がモデルを示した後、${childName}さんが実際にやってみます。
-- 成功体験を重視し、必要に応じて手順を細分化（スモールステップ）します。
-- ペア活動やグループ活動を取り入れ、自然な場面での般化を促します。
+**【展開②】（15分）${detail.activity2Title}**
+${detail.activity2}
 
-**【まとめ】（10分）「ふりかえりタイム」**
-- 「できたことカード」に今日の成果を記録します。
-- がんばりシールを貼り、視覚的に達成感を味わえるようにします。
-- 次回の目標を一緒に確認し、見通しを持たせます。
+**【まとめ】（10分）**
+${detail.summary}
 
 #### 3. 指導上の留意点・配慮事項
-- **環境調整：** 刺激に敏感な場合は、パーティションやイヤーマフを活用し、集中できる環境を整えます。
-- **視覚的支援：** 指示は簡潔にし、写真やイラストを多用した手順書（タスク表）を提示します。
-- **個別対応：** ${childName}さんの特性に合わせ、代替手段（指差し、カード等）の使用も積極的に認めます。
-- **肯定的評価：** できたことを具体的に褒め、自己肯定感の向上を図ります。
+${detail.notes}
 
 #### 4. 教材・準備物
-- 表情カード、振り返りカード、がんばりシール
-- ワークシート（「こんなときどうする？」シート）
-- タブレット端末（ICT教材）
-- イラスト・写真カード
-- タスク表（手順書）
+${detail.materials}
 
 #### 5. 評価の観点
-- ${item.officialName}に関して、理解が深まったか
-- 実践場面で、支援を受けながらも取り組む姿が見られたか
-- 振り返りにおいて、自分の変化に気づくことができたか`;
+${detail.evaluation}`;
   };
 
   const handleConsultAI = async (item: Item) => {
