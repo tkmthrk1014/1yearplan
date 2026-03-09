@@ -4,7 +4,7 @@ import { ChevronRight, ChevronLeft, Sparkles, CheckCircle2, AlertCircle } from '
 import { motion, AnimatePresence } from 'framer-motion';
 
 type Step = 'profile' | 'assessment' | 'results' | 'consultation';
-type Answers = Record<number, number>; // itemId: score (1-5, where 1 is "needs support")
+type Answers = Record<number, number>; // itemId: score (1-4, where 1 is "needs support")
 
 const App: React.FC = () => {
   const [step, setStep] = useState<Step>('profile');
@@ -114,18 +114,12 @@ ${issues.slice(0, 2).map(i => `・${i.name}`).join('\n')}
                     style={{ width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--border)' }}
                   >
                     <option value="">選択してください</option>
-                    <option value="小学部 1年">小学部 1年</option>
-                    <option value="小学部 2年">小学部 2年</option>
-                    <option value="小学部 3年">小学部 3年</option>
-                    <option value="小学部 4年">小学部 4年</option>
-                    <option value="小学部 5年">小学部 5年</option>
-                    <option value="小学部 6年">小学部 6年</option>
-                    <option value="中学部 1年">中学部 1年</option>
-                    <option value="中学部 2年">中学部 2年</option>
-                    <option value="中学部 3年">中学部 3年</option>
-                    <option value="高等部 1年">高等部 1年</option>
-                    <option value="高等部 2年">高等部 2年</option>
-                    <option value="高等部 3年">高等部 3年</option>
+                    <option value="1年生">1年生</option>
+                    <option value="2年生">2年生</option>
+                    <option value="3年生">3年生</option>
+                    <option value="4年生">4年生</option>
+                    <option value="5年生">5年生</option>
+                    <option value="6年生">6年生</option>
                   </select>
                 </div>
                 <button
@@ -161,7 +155,7 @@ ${issues.slice(0, 2).map(i => `・${i.name}`).join('\n')}
                   <div key={item.id} style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1.5rem' }}>
                     <p style={{ fontWeight: 600, marginBottom: '1rem' }}>{item.question}</p>
                     <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
-                      {[1, 2, 3, 4, 5].map((score) => (
+                      {[1, 2, 3, 4].map((score) => (
                         <button
                           key={score}
                           onClick={() => handleAnswer(item.id, score)}
@@ -176,11 +170,10 @@ ${issues.slice(0, 2).map(i => `・${i.name}`).join('\n')}
                             fontWeight: 600
                           }}
                         >
-                          {score === 1 && '非常に難しい'}
+                          {score === 1 && 'とても難しい'}
                           {score === 2 && '難しい'}
-                          {score === 3 && '普通'}
-                          {score === 4 && 'できる'}
-                          {score === 5 && '得意'}
+                          {score === 3 && 'できる'}
+                          {score === 4 && 'よくできる'}
                         </button>
                       ))}
                     </div>
